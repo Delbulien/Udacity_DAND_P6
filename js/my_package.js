@@ -1,24 +1,84 @@
 function draw() {
     "use strict";
     var margin = 75,
-		width = 1400 - margin,
+		width = 1300 - margin,
         height = 600 - margin;
 
 	d3.select("body")
 		.append("h2")
-		.text("Total Amount of money Borrowed through Prosper Loan")
+		.text("Prosper Loan Evolution from 2005 to 2014")
 	
-	var svg = d3.select("body")
+	var main_div=d3.select("body").append("div").attr("class","main_div").style('display', 'flex')
+	var left_div=main_div.append("div").attr("class","left_div").style("width",width/2 + margin/2)
+	var right_div=main_div.append("div").attr("class","right_div").style("width",width/2 + margin/2 )
+	var right_top_div=right_div.append("div").attr("class","right_top_div")
+	var right_bottom_div=right_div.append("div").attr("class","right_bottom_div")
+	
+	
+	//var svg_line = d3.select("body")
+	var svg_line=left_div
         .append("svg")
-        .attr("width", width + margin)
+        .attr("width", width/2 + margin/2)
         .attr("height", height + margin)
         .append('g')
+        .attr('class', 'chart');
+		//.attr("transform", "translate(" + margin + "," + margin + ")");		
+	
+	//var svg = d3.select("body")
+	var svg = right_top_div
+        .append("svg")
+        .attr("width", width/2 + margin/2)
+        .attr("height", 3./4. *height + margin/2.)
+        .append('g')
         .attr('class', 'map');
+		//.attr("transform", "translate(" + margin + "," + margin + ")");
 		
+	//debugger;
+	
+	var explanation="Amount Borrowed through Prosper Loans is rapidly increasing in all the united despite having been impacted by the subprime crisis! (Click on line chart points to display specific year values)"
+	right_bottom_div.text(explanation)
+	
+	//svg.append("text").text(explanation)
+	//			.attr({
+	//			id: "explanation",
+	//			x: 0.,
+	//			y: 7./8.*height,
+	//			width: width/2,
+	//			height: 1./4.*height});
+				
+	
+	function plot_line_graph(data){
+		//debugger;
+		svg_line.append("text")
+        .attr("x", (width / 4))             
+        .attr("y", margin / 2)
+        .attr("text-anchor", "middle")  
+        .style("font-size", "16px") 
+        //.style("text-decoration", "underline")  
+        .text("Total Amount of Money Borrowed");
 		
-
+		var myChart = new dimple.chart(svg_line, data);
+		
+		var x = myChart.addTimeAxis("x", "year"); 
+		x.title = "Years"
+        var y = myChart.addMeasureAxis("y", "total_loan");
+		y.title = "Total Amount Borrowed"
+		x.dateParseFormat="%Y";
+		x.tickFormat="%Y";
+		//x.tickFormat=",4f";
+		//y.tickFormat = ",.4f";
+		//x.timeInterval=4;
+          /*myChart.addSeries(null, dimple.plot.bar);*/
+		  /*myChart.addSeries(null, dimple.plot.scatter);*/
+		myChart.addSeries(null, dimple.plot.line);
+		myChart.addSeries(null, dimple.plot.scatter);
+		  
+        myChart.draw();
+	}
+	
 	
 	function plot_points(data){
+		//debugger;
 		
 		function agg_years(leaves) {
 			var total=d3.sum(leaves,function(d) {return d['LoanOriginalAmount'];});
@@ -49,6 +109,34 @@ function draw() {
 				
 		console.log(nested[0]);
 		//debugger;
+		
+		var nested_year=d3.nest()
+			.key(function(d){
+				if (d['date']===null){
+					return 0;
+				}
+				else {
+					return d['date'].getUTCFullYear();
+				}
+			})
+			.rollup(agg_years)
+			.entries(data);
+			
+		var nested_year_2 = nested_year.filter(function(d) {
+			if (d.key==="0"){
+				return false;
+			}
+			else {
+				return true;
+			}
+		}).map(function(d) {
+			return {
+				year: d.key,
+				total_loan: d.values.Total_Borrowed
+			}
+		});
+		
+		plot_line_graph(nested_year_2)
 		
 		var Total_Borrowed_min=d3.min(nested,function(d){
 				var v1=d.values
@@ -146,6 +234,39 @@ function draw() {
 					.duration(500)
 					.attr("r",update_radius)
 					
+			console.log(svg_line.selectAll("circle"))
+			//debugger
+			svg_line.selectAll("circle.dimple-series-1").filter(function(d){
+				
+				console.log(d)
+				//debugger;
+				if (d.key.indexOf(year) !=-1 ){
+					return true
+				}
+				else {
+					return false
+				}
+					//return d3.select(this).attr("class").contains(year);
+			})
+			.transition()
+			.duration(500)
+			.style("fill","red")
+			
+			svg_line.selectAll("circle.dimple-series-1").filter(function(d){
+				
+				console.log(d)
+				//debugger;
+				if (d.key.indexOf(year) !=-1 ){
+					return false
+				}
+				else {
+					return true
+				}
+					//return d3.select(this).attr("class").contains(year);
+			})
+			.transition()
+			.duration(500)
+			.style("fill","#80B1D3")
 			
 			
 		};
@@ -165,8 +286,62 @@ function draw() {
 			update(years[year_idx]);
 			year_idx++;
 		
+			if (years[year_idx] === 2009){
+				var year_img=[];
+				year_img.push("2008");
+				
+			var mainBox=svg_line.append("rect").attr({
+				id: "crisis_rect",
+				x: 0.4*width/2,
+				y: 0.7*height,
+				width: 115,
+				height: 40,
+				fill: "#D7FFEC" ,
+				opacity: 0.8});
+				
+			svg_line.append("text").text("Subprime Crisis")
+				.attr({
+				id: "crisis",
+				x: 0.41*width/2,
+				y: 0.75*height,
+				width: 100,
+				height: 50})
+				.style('fill','red');
+						  
+				
+			}
+				
+		
 			if (year_idx>=years.length) {
 				clearInterval(year_interval);
+				
+				
+				svg_line.selectAll("circle").on("click", function(d) {
+                    //svg_line.selectAll("circle")
+                    //  .transition()
+                    //  .duration(500)
+                    //  .style("fill", "#80B1D3");
+					
+					console.log(new Date(d.cx).getUTCFullYear())
+					
+					var curr_year=new Date(d.cx).getUTCFullYear();
+					curr_year=curr_year+1
+					console.log(curr_year);
+					//debugger;
+					update(curr_year);
+					
+					//console.log(d.cx);
+					//console.log(new Date(d.cx).getUTCFullYear())
+					//console.log(d3.select("this"));
+					//debugger;
+					
+					//d3.select("this")
+					//	.transition()
+					//	.duration(500)
+					//	.style("fill", "red");
+                      
+				});
+					
 			}
 		
 		},1000);
@@ -176,9 +351,18 @@ function draw() {
 	
 	function draw_States(state_data){
 		// D3 Projection
+		
+		svg.append("text")
+        .attr("x", (width / 4))             
+        .attr("y", margin / 2)
+        .attr("text-anchor", "middle")  
+        .style("font-size", "16px") 
+        //.style("text-decoration", "underline")  
+        .text("Amount Borrowed per states");
+		
 		var projection = d3.geo.albersUsa()
-			.translate([width/2, height/2])    // translate to center of screen
-			.scale([1000]);          // scale things down so see entire US
+			.translate([width/4, 3./4.*height/2 ])    // translate to center of screen
+			.scale([700]);          // scale things down so see entire US
         
 		// Define path generator
 		var path = d3.geo.path()               // path generator that will convert GeoJSON to SVG paths
