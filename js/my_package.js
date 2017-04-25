@@ -38,6 +38,40 @@ function draw() {
         .append('g')
         .attr('class', 'map');
 	
+	svg.append("rect")
+		.attr('x',width/4)
+		.attr('y',0.1*height/4)
+		.attr("width", 20)
+        .attr("height", 10)
+		.style("fill","rgb(9,157,217)")
+		.style("stroke","black");
+		
+	svg.append("text")
+		.attr('x',width/4+25)
+		.attr('y',0.1*height/4+10)
+		.attr("width", 20)
+        .attr("height", 10)
+		//.style("fill","rgb(9,157,217)")
+		//.style("stroke","black")
+		.text("State with available data");
+		
+	svg.append("rect")
+		.attr('x',width/4)
+		.attr('y',0.1*height/4+20)
+		.attr("width", 20)
+        .attr("height", 10)
+		.style("fill","white")
+		.style("stroke","black");
+	
+	svg.append("text")
+		.attr('x',width/4+25)
+		.attr('y',0.1*height/4+30)
+		.attr("width", 20)
+        .attr("height", 10)
+		//.style("fill","rgb(9,157,217)")
+		//.style("stroke","black")
+		.text("State without available data");
+	
 	// Add explanation paragraph
 	right_bottom_div.append("p").attr("class","main_explanation").html("Prosper Marketplace, Inc. is a San Francisco, California-based company \
 		in the peer-to-peer lending industry. <BR> The current visualization shows the quick bussiness increase of the concept between 2005 and 2014")
