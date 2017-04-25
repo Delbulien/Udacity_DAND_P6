@@ -2,7 +2,7 @@ h2 {
    text-align: center;
    }
 
-.right_bottom_div {
+.main_explanation {
 	color:black;
 	margin-left:100px;
 	margin-right:100px;
@@ -10,3 +10,22 @@ h2 {
 	font-style: italic;
 	font-size: 150%;
 	}
+
+.title_line_graph {
+	text-align: center;
+	font-size: 120%;
+   }
+   
+.title_map_graph {
+	text-align: center;
+	font-size: 120%;
+   }
+
+.user_message {
+	text-align: left;
+	font-size: 80%;
+   }
+   
+.last_div {
+	font-size: 80%;
+   }
