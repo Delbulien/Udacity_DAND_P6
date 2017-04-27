@@ -2,19 +2,55 @@
 Data Visualization: Make effective data Visualization
 
 # Summary  
-https://en.wikipedia.org/wiki/Prosper_Marketplace 
-Prosper Marketplace, Inc. is a San Francisco, California-based company in the peer-to-peer lending industry.  
-Prosper Funding LLC, one of its subsidiaries, operates Prosper.com, a website where individuals can either invest in personal loans or request to borrow money.  
-The visalization show the evolution of the global amount of money borrowed through prosper loan from 2005 (the creation date of the company) up to 2014.  
-In addition, a map has been created in order to see how the amount of money borrowed is distributed in the different states.
+The evolution of the amount borrowed by people in the united state through prosper Loan shows a sharp decrease when the Subprime Mortgage crisis happened.
+The decrease of the Prosper Loan bussiness is uniform in the united state.
+
+Prosper Loan is a pear to pear lending industry: https://en.wikipedia.org/wiki/Prosper_Marketplace 
+Subprime Mortgage crisis was a nationwide banking emergency that contributed to the U.S. recession of December 2007 – June 2009 : https://en.wikipedia.org/wiki/Subprime_mortgage_crisis
 
 # Design  
-I made a author driven narrative. The evolution from 2005 up to 2014 is displayed first then, the reader has the possibility to come back to any of years previously displayed.  
-I made a line chart on the left hand side of the page in order to get a global view of the evolution through the year.
-On the right side I displayed the map, to see how the amount borrowed are distributed in the USA. As it is a Califormian company, it could have been
-imagined that the bussines was mainly concentrated on the west cost which not the case.  
-Finally, based on the feedback, I updated the initial text in order to better pass my message. In addition, I added a legend on the map in order to explain why some state remain white (no data)
+A line/scatter chart has been choosen in order the display the time evolution of the global amount borrowed through Prosper Loan.  
+A map has been made to display the split the global amount borrower in a given year in the USA states. A circle with a surface proportional 
+to the amount borrowed in the state aims at easily see whether the population of a state is using Prosper Loan or not. Vectors with uniform module but 
+with an orientation depending on the relative evolution of the amount is use in order to support the point that the recession has uniformly impacted 
+all the states. 
+The Subprime Mortgage crisis period is highlighted on the line chart with a red area. 
+The time period chosen for the line chart is 2006-2013. No Prosper Loan have been made in 2005. In orer to display the relative growth, I had to stop the line 
+chart one year before the last year for which data are available.  
+The user has the possibility to click on the line chart point in order to construct its own story. At the end of the initial animation, when a point is clicked, 
+its color and radius are changed in order help remember which one has been clicked.
 
+# Versionnig  
+	Original commit Apr 6, 2017:
+		Initial version. Only the map part with the circles representing the amount borrowed through Prosper Loan in the states through the year exists
+		
+	Commits on Apr 20, 2017
+		Addition of the line chart to support the "story" I had in mind
+		
+		==> request for feedbacks made here
+		
+	Commits on Apr 25, 2017
+		Addition of title and improvement of display and text part with <div> tag
+		Add legend based on feddback received
+		Addition of the source of the data and author of the vizualisationbased on feddback received
+		Addition of README.md
+	
+		==>first submission
+	
+	Commits on Apr 27, 2017
+		Change title and explanation text
+		Add red area in line chart to highlight subprime Mortgage crisis period.
+		Change of the radius and of the circle color of the line chart during the animation
+		Correction of the bug which led to display the wrong point on line line chart.
+		Change map: 
+			All states are uniformly colored in gray
+			opacity used on Circles
+			Addition of the relative growth rate represented by a vector in order to support the "story": uniform decrease of the Prosper Loan in all the states
+		Correction of the README.md with the reviewer's remarks.
+		
+		==>Second submission
+		
+		
 # Feedback  
   Peter:  
   ------  
@@ -40,5 +76,7 @@ What relationships do you notice?[Renaud] Correlation between the graph (total a
 What do you think is the main takeaway from this visualization?  
 Is there something you don’t understand in the graphic?[Renaud] All is clear  
 
-# Resources:  
+
+
+# Resources    
   Several posts on https://stackoverflow.com/
