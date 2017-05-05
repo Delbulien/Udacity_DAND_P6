@@ -438,7 +438,7 @@ function draw() {
 		var path = d3.geo.path()               // path generator that will convert GeoJSON to SVG paths
 		  	.projection(projection);  // tell path generator to use albersUsa projection
 		
-		svg.selectAll("path")
+		svg.selectAll("path.state")
 			.data(state_data.features)
 			.enter()
 			.append("path")
@@ -461,7 +461,7 @@ function draw() {
 		}
 		
 		// Add circle to the map graph the zero radius
-		svg.selectAll('circle')
+		svg.selectAll('circle.bubble')
 			.data(state_data.features)
 			.enter()
 			.append('circle')
@@ -472,7 +472,7 @@ function draw() {
 			.style("opacity", 0.5);
 			
 		// line definition
-		svg.selectAll('line')
+		svg.selectAll('line.vector')
 			.data(state_data.features)
 			.enter()
 			.append('line')
