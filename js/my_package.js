@@ -496,5 +496,5 @@ function draw() {
 	}
 	
 	// Read the states json file and draw the states map
-	d3.json("data/gz_2010_us_040_00_20m.json", draw_States);
+	d3.json("./data/gz_2010_us_040_00_20m.json", draw_States);
 }
