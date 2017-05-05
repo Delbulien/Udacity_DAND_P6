@@ -489,7 +489,7 @@ function draw() {
 		var format=d3.time.format("%Y-%m-%d %H:%M:%S.%L000000");
 	
 		// Read Proper Loan data and draw the graph
-		d3.csv("/data/prosperLoanData.csv",function(d) { 
+		d3.csv("data/prosperLoanData.csv",function(d) { 
 				d.date=format.parse(d.ListingCreationDate);
 				return d;
 			},plot_points);
